@@ -1,1 +1,1 @@
-# node_with_mongo
+# Build NodeJS applications with Mongodb udemy course
