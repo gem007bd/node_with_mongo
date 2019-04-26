@@ -1,0 +1,25 @@
+{
+  "name": "node_with_mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gem007bd/node_with_mongo.git"
+  },
+  "author": "gem",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gem007bd/node_with_mongo/issues"
+  },
+  "homepage": "https://github.com/gem007bd/node_with_mongo#readme",
+  "dependencies": {
+    "express": "^4.16.4"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
