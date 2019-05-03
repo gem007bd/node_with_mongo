@@ -1,22 +1,29 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
-
+const expressEdge = require('express-edge');
 const app = express();
 
 //setting middleware
 app.use(express.static('public'));
 
+// require express-edge
+app.use(expressEdge);
+app.set('views', `${__dirname}/views/layouts`);
+
 app.get('/', (req, res, next) => {
-    res.sendFile(path.resolve('public/pages/index.html'))
+    res.render('index');
 });
 
 app.get('/about', (req, res, next) => {
-    return res.end(aboutPage);
+    res.render('about');
 });
 
-// read about page 
-const aboutPage = fs.readFileSync('public/pages/about.html');
+app.get('/post', (req, res, next) => {
+    res.render('post');
+});
+
+app.get('/contact', (req, res, next) => {
+    res.render('contact')
+});
 
 app.listen(8001, () => {
     console.log('App is listing on port 8001');
