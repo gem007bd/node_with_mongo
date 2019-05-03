@@ -1,7 +1,9 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const expressEdge = require('express-edge');
 const app = express();
 
+mongoose.connect('mongodb://localhost/node-js-blog');
 //setting middleware
 app.use(express.static('public'));
 
@@ -23,6 +25,11 @@ app.get('/post', (req, res, next) => {
 
 app.get('/contact', (req, res, next) => {
     res.render('contact')
+});
+
+// admin login panel
+app.get('/admin', (req, res, next) => {
+    res.render('admin')
 });
 
 app.listen(8001, () => {
