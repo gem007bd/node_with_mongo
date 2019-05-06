@@ -27,6 +27,10 @@ app.get('/contact', (req, res, next) => {
     res.render('contact')
 });
 
+// url for create a post 
+app.get('/posts/new', (req, res, next) => {
+    res.render('create')
+});
 // admin login panel
 app.get('/admin', (req, res, next) => {
     res.render('admin')
