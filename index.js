@@ -2,21 +2,29 @@ const express = require('express');
 const mongoose = require('mongoose');
 const expressEdge = require('express-edge');
 const bodyParser = require('body-parser');
-const path = require('path');
 const fileUpload = require('express-fileupload');
 
+/**
+ * Database Configuration 
+ */
+const DATABASE = 'mongodb://localhost/node-js-blog';
 
 /**
- *  Call the Post Model
+ * Place where import all the controllers
  */
-const Post = require('./database/models/Post');
+const createPostController = require('./controllers/createPost');
+const homePageController = require('./controllers/homePage');
+const storePageController = require('./controllers/storePost');
+const getsPostController = require('./controllers/getPost');
+const getsUserController = require('./controllers/createUser');
+const storeUserController = require('./controllers/storeUser')
 
 const app = express();
 
 /**
- * connect with the database (node-js-blog)
+ * connect with the DATABASE (node-js-blog)
  */
-mongoose.connect('mongodb://localhost/node-js-blog');
+mongoose.connect(DATABASE);
 
 /**
  * Use fileupload for uploading file
@@ -41,65 +49,44 @@ app.use(expressEdge);
 app.set('views', `${__dirname}/views/layouts`);
 
 /**
- * get all the post in the index page
+ * validate post middleware  
  */
-app.get('/', async(req, res) => {
-
-    const posts = await Post.find({});
-    console.log(posts);
-    res.render('index', {
-        posts
-    });
-});
+const validateCreatePostMiddleware = require('./middleware/storePost');
 
 /**
- * Get data from about page
+ * Use valid post middleware
  */
-app.get('/about', (req, res, next) => {
-    res.render('about');
-});
+app.use('/posts/store',validateCreatePostMiddleware);
 
-// app.get('/post', (req, res, next) => {
-//     res.render('post');
-// });
+/**
+ * get all the post in the index page
+ */
+app.get('/', homePageController);
 
 /**
  * request for a post with id
  */
-app.get('/posts/:id', async(req, res, next) => {
-    const singlePost = await Post.findById(req.params.id);
-    res.render('post', {
-        singlePost
-    });
-});
-
-app.get('/contact', (req, res, next) => {
-    res.render('contact')
-});
+app.get('/posts/:id', getsPostController);
 
 /**
  * Create new post page
  */
-app.get('/post/create', (req, res, next) => {
-    res.render('create')
-});
+app.get('/post/create', createPostController);
+
+/**
+ * Registration page
+ */
+app.get('/auth/register', getsUserController);
 
 /**
  * Post the request to the url to create Post
  */
-app.post('/posts/store', (req, res, next) => {
-    const image = req.files.post_image;
-    // upload the file to the post 
-    image.mv(path.resolve(__dirname, 'public/posts', image.name), (error) => {
-        Post.create({
-            ...req.body,
-            image: `/posts/${image.name}`
-        }, (error, post) => {
-            res.redirect('/');
-        });
-    });
-})
+app.post('/posts/store', storePageController);
 
+/**
+ *  Register user request 
+ */
+app.post('/users/register', storeUserController)
 // admin login panel
 app.get('/admin', (req, res, next) => {
     res.render('admin')
