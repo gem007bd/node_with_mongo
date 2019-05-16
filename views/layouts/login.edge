@@ -1,0 +1,49 @@
+@layout('app')
+@section('content')
+  <!-- Page Header -->
+  <header class="masthead">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="post-heading">
+            <h1>Login</h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<!-- Post Content -->
+  <article>
+    <div class="container">
+      <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <form name="createPost" id="login" action="/users/login" method="POST">
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Email </label>
+              <input type="email" class="form-control" placeholder="Email" name="email" required data-validation-required-message="Please enter your email.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="form-group floating-label-form-group controls">
+              <label>Password</label>
+              <input type="password" class="form-control" placeholder="Password" name="password" required data-validation-required-message="Please enter your password.">
+              <p class="help-block text-danger"></p>
+            </div>
+          </div>
+          <div id="success"></div>
+          </br>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="loginBtn">Login</button>
+          </div>
+        </form>
+      </div>
+      </div>
+    </div>
+  </article>
+  <hr>
+
+@endsection

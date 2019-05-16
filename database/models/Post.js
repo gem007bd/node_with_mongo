@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-
-// Users, Posts, Products
-
+/**
+ *  Create post and store in database
+ */
 const PostSchema = new mongoose.Schema({
     title: String,
     subtitle: String,

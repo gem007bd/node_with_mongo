@@ -1,17 +1,42 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
-
-// Users, Posts, Products
-
+/**
+ * Create User and save into database
+ */
 const UserSchema = new mongoose.Schema({
-    username: String,
-    email: String,
-    password: String,
+    username: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true,
+    },
     createdAt: {
         type: Date,
         default: new Date()
     }
 });
+
+/**
+ *  Before save the password encrypt it with bcrypt 
+ *  Why arrow function is not working here??
+ */
+UserSchema.pre('save', function(next) {
+     const user = this;
+     bcrypt.hash(user.password, saltRounds, function (error, encrypted) {
+        user.password = encrypted;
+        next();
+     })
+})
 
 const User = mongoose.model('User', UserSchema);
 

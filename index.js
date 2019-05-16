@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const expressEdge = require('express-edge');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
+const expressSession = require('express-session');
 
 /**
  * Database Configuration 
@@ -17,9 +18,18 @@ const homePageController = require('./controllers/homePage');
 const storePageController = require('./controllers/storePost');
 const getsPostController = require('./controllers/getPost');
 const getsUserController = require('./controllers/createUser');
-const storeUserController = require('./controllers/storeUser')
+const storeUserController = require('./controllers/storeUser');
+const loginController = require('./controllers/login');
+const loginUserController = require('./controllers/loginUser');
 
 const app = express();
+
+/**
+ * Configure express session 
+ */
+app.use(expressSession({
+    secret: 'secret'
+}));
 
 /**
  * connect with the DATABASE (node-js-blog)
@@ -49,7 +59,7 @@ app.use(expressEdge);
 app.set('views', `${__dirname}/views/layouts`);
 
 /**
- * validate post middleware  
+ * Validate post middleware  
  */
 const validateCreatePostMiddleware = require('./middleware/storePost');
 
@@ -59,12 +69,12 @@ const validateCreatePostMiddleware = require('./middleware/storePost');
 app.use('/posts/store',validateCreatePostMiddleware);
 
 /**
- * get all the post in the index page
+ * Get all the post in the index page
  */
 app.get('/', homePageController);
 
 /**
- * request for a post with id
+ * Request for a post with id
  */
 app.get('/posts/:id', getsPostController);
 
@@ -86,12 +96,27 @@ app.post('/posts/store', storePageController);
 /**
  *  Register user request 
  */
-app.post('/users/register', storeUserController)
-// admin login panel
+app.post('/users/register', storeUserController);
+
+/**
+ * Login page url
+ */
+app.get('/auth/login', loginController);
+
+/**
+ * Login post to database url
+ */
+app.post('/users/login', loginUserController);
+/**
+ * Under construction with my admin panel ):
+ */
 app.get('/admin', (req, res, next) => {
     res.render('admin')
 });
 
+/**
+ *  Define the port number where the application is running
+ */
 app.listen(8001, () => {
     console.log('App is listing on port 8001');
 });
