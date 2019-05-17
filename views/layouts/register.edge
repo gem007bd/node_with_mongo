@@ -19,18 +19,27 @@
     <div class="container">
       <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
+
+        @if(errors.length > 0)
+          <ul class="list-group">
+              @each(error in errors) 
+                <li class="list-group-item text-danger">{{error}}</li>
+              @endeach
+          </ul>
+        @endif
+
         <form name="createPost" id="registerUser" action="/users/register" method="POST">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Username </label>
-              <input type="text" class="form-control" placeholder="Username" name="username" required data-validation-required-message="Please enter your username.">
+            <input type="text" class="form-control" value="{{ data.username ||''}}"   placeholder="Username" name="username" data-validation-required-message="Please enter your username.">
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Email</label>
-              <input type="email" class="form-control" placeholder="Email" name="email" required data-validation-required-message="Please enter your email.">
+            <input type="email" class="form-control" placeholder="Email" name="email"  value="{{ data.email || ''}}" data-validation-required-message="Please enter your email.">
               <p class="help-block text-danger"></p>
             </div>
           </div>
