@@ -10,7 +10,7 @@
           <h1>{{singlePost.title}}</h1>
             <h2 class="subheading">{{singlePost.subtitle}}</h2>
             <span class="meta">Posted by
-              <a href="#">{{singlePost.username}}</a>
+              <a href="#">{{singlePost.author.username}}</a>
               on {{singlePost.createdAt.toDateString()}}</span>
           </div>
         </div>
@@ -31,5 +31,4 @@
     </div>
   </article>
   <hr>
-
 @endsection
