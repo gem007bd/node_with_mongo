@@ -1,3 +1,5 @@
+require('dotenv').config();
+console.log(process.env);
 const express = require('express');
 const mongoose = require('mongoose');
 const expressEdge = require('express-edge'); // Template engine user here
@@ -7,11 +9,7 @@ const fileUpload = require('express-fileupload'); // file upload
 const expressSession = require('express-session');  // manage session
 const connectMongo = require('connect-mongo'); // store session value in database
 const connectFlash = require('connect-flash'); // flash error message from session 
-
-/**
- * Database Configuration 
- */
-const DATABASE = 'mongodb://localhost/node-js-blog';
+const cloudinary = require('cloudinary'); // store file on cloud
 
 /**
  * Place where import all the controllers
@@ -37,9 +35,19 @@ const app = express();
 app.use(connectFlash());
 
 /**
+ *  Cloudinary configuration
+ */
+cloudinary.config({
+    api_key: process.env.CLOUDINARY_NAME,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: process.env.CLOUDINARY_API_KEY
+});
+
+
+/**
  * connect with the DATABASE (node-js-blog)
  */
-mongoose.connect(DATABASE);
+mongoose.connect(process.env.DB_URI);
 
 /**
  *  Create mongo store
@@ -51,7 +59,7 @@ const mongoStore = connectMongo(expressSession);
  * Configure express session 
  */
 app.use(expressSession({
-    secret: 'secret',
+    secret: process.env.EXPRESS_SESSION_KEY,
     store: new mongoStore({
         mongooseConnection: mongoose.connection
     })
@@ -140,6 +148,12 @@ app.get('/auth/logout', logoutController);
  * Login post to database url
  */
 app.post('/users/login', redirectIfAuthenticated, loginUserController);
+
+/**
+ *  Not found page
+ */
+app.use((req, res) => res.render('not-found'));
+
 /**
  * Under construction with my admin panel ):
  */
@@ -150,6 +164,6 @@ app.get('/admin', (req, res, next) => {
 /**
  *  Define the port number where the application is running
  */
-app.listen(8001, () => {
+app.listen(process.env.PORT, () => {
     console.log('App is listing on port 8001');
 });

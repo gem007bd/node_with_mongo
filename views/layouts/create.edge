@@ -29,13 +29,6 @@
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
-              <label>Username </label>
-              <input type="text" class="form-control" placeholder="Username" name="username" required data-validation-required-message="Please enter your username.">
-              <p class="help-block text-danger"></p>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
               <label>Subtitle</label>
               <input type="text" class="form-control" placeholder="Description" name="subtitle" required data-validation-required-message="Please enter your description.">
               <p class="help-block text-danger"></p>
@@ -44,7 +37,7 @@
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Content</label>
-              <textarea rows="5" class="form-control" placeholder="Content" name="content" required data-validation-required-message="Please enter a Content."></textarea>
+              <textarea id="summernote" rows="5" class="form-control" placeholder="Content" name="content" required data-validation-required-message="Please enter a Content."></textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>
@@ -64,3 +57,11 @@
   </article>
   <hr>
 @endsection
+
+@!section('styles')
+    
+@endsection
+
+@!section('scripts')
+
+@!endsection
